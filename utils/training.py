@@ -54,10 +54,10 @@ def save_ckp(state, model, is_best, checkpoint_path, best_model_path, final_mode
     f_path = checkpoint_path
     # save checkpoint data to the path given, checkpoint_path
     torch.save(state, f_path)
-    torch.save(model, final_model_path)
     # if it is a best model, min validation loss
     if is_best:
         best_fpath = best_model_path
+        torch.save(model, final_model_path)
         # copy that checkpoint file to best path given, best_model_path
         shutil.copyfile(f_path, best_fpath)
 
