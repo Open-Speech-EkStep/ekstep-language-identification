@@ -11,10 +11,10 @@ torch.manual_seed(0)
 
 
 def load_model(model_path):
-    model = get_model(device)
+    # model = get_model(device)
     if os.path.isfile(model_path):
-        checkpoint = torch.load(model_path, map_location=device)
-        model.load_state_dict(checkpoint['state_dict'])
+        model = torch.load(model_path, map_location=device)
+        # model.load_state_dict(checkpoint['state_dict'])
         model.eval()
         print("Model loaded from ", model_path)
     else:
