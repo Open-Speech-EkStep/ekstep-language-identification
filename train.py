@@ -1,8 +1,8 @@
 import torch.nn as nn
 import torch.optim as optim
 
-from utils.training import *
 from models.model import get_model
+from utils.training import *
 
 torch.manual_seed(0)
 

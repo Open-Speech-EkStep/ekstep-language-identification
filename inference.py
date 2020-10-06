@@ -1,9 +1,10 @@
 import os
+
+import numpy as np
 import torch
 import yaml
-import numpy as np
+
 from utils import utils
-from models.model import get_model
 
 # check cuda available
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")

@@ -4,6 +4,7 @@ from torchvision.models import resnet18
 
 torch.manual_seed(0)
 
+
 def get_model(device):
     model = resnet18(pretrained=False)
     model.fc = nn.Linear(512, 2)
