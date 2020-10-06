@@ -1,0 +1,9 @@
+train_parameters:
+  train_manifest: "train_data.csv"
+  batch_size: 8
+  learning_rate: 1e-3
+  num_epochs: 100
+  num_workers: 10
+  current_checkpoint_path: "./checkpoint/current_checkpoint.pt"
+  best_checkpoint_path: "./best_model/best_model.pt"
+  final_checkpoint_path: "./final_model/model.pt"
