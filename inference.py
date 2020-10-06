@@ -2,12 +2,11 @@ import os
 import torch
 import yaml
 import numpy as np
-import utils
-from model import get_model
+from utils import utils
+from models.model import get_model
 
 # check cuda available
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-use_cuda = torch.cuda.is_available()
 torch.manual_seed(0)
 
 
@@ -53,7 +52,7 @@ def load_yaml_file(path):
     return read_dict
 
 
-def evaluation(audio_path, model_path):  # change name
+def evaluation(audio_path, model_path):
     model = load_model(model_path)
     model_output = forward(audio_path, model=model)
     # _, prediction = model_output.max(1)
