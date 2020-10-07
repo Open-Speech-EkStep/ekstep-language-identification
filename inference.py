@@ -8,7 +8,7 @@ from utils import utils
 
 # check cuda available
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-torch.manual_seed(0)
+# torch.manual_seed(0)
 
 
 def load_model(model_path):
