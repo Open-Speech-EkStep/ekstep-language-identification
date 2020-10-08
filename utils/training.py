@@ -1,16 +1,21 @@
 import os
-import yaml
 import shutil
+
 import numpy as np
-
-from sklearn.metrics import accuracy_score
-from tqdm import tqdm
-
 import torch
+import yaml
+from sklearn.metrics import accuracy_score
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 from torch.utils.data import DataLoader
+from tqdm import tqdm
+
 from loaders.data_loader import SpeechDataGenerator
 
+
+def create_output_dirs(checkpoint_path):
+    os.makedirs(os.path.join(checkpoint_path, "current_checkpoint"), exist_ok=True)
+    os.makedirs(os.path.join(checkpoint_path, "best_model"), exist_ok=True)
+    os.makedirs(os.path.join(checkpoint_path, "final_model"), exist_ok=True)
 
 
 def load_yaml_file(path):
@@ -19,8 +24,9 @@ def load_yaml_file(path):
         read_dict = yaml.safe_load(file)
     return read_dict
 
+
 # Load Data
-def load_data_loaders(train_manifest,batch_size,num_workers):
+def load_data_loaders(train_manifest, batch_size, num_workers):
     dataset = SpeechDataGenerator(manifest=train_manifest, mode='train')
 
     train_size = int(0.9 * len(dataset))
@@ -36,6 +42,7 @@ def load_data_loaders(train_manifest,batch_size,num_workers):
         'test': test_loader,
     }
     return loaders
+
 
 def show_model_parameters(model):
     model_parameters = filter(lambda p: p.requires_grad, model.parameters())

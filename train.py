@@ -16,9 +16,9 @@ train_parameters = load_yaml_file("train_config.yml")["train_parameters"]
 train_manifest = train_parameters["train_manifest"]
 
 # outputs
-current_checkpoint_path = train_parameters["current_checkpoint_path"]
-best_checkpoint_path = train_parameters["best_checkpoint_path"]
-final_checkpoint_path = train_parameters["final_checkpoint_path"]
+checkpoint_path = train_parameters["checkpoint_path"]
+
+create_output_dirs(checkpoint_path)
 
 # Hyperparameters
 batch_size = int(train_parameters["batch_size"])
