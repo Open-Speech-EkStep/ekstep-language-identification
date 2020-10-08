@@ -21,10 +21,10 @@ best_checkpoint_path = train_parameters["best_checkpoint_path"]
 final_checkpoint_path = train_parameters["final_checkpoint_path"]
 
 # Hyperparameters
-batch_size = train_parameters["batch_size"]
-learning_rate = train_parameters["learning_rate"]
-num_epochs = train_parameters["num_epochs"]
-num_workers = train_parameters["num_workers"]
+batch_size = int(train_parameters["batch_size"])
+learning_rate = float(train_parameters["learning_rate"])
+num_epochs = int(train_parameters["num_epochs"])
+num_workers = int(train_parameters["num_workers"])
 
 # Load_Data
 loaders = load_data_loaders(train_manifest, batch_size, num_workers)
