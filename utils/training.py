@@ -204,7 +204,7 @@ def train(start_epochs, n_epochs, device, valid_loss_min_input, loaders, model, 
                  save_for_each_epoch)
 
         if valid_loss <= valid_loss_min:
-            print('Validation loss decreased ({:.6f} --> {:.6f})'.format(valid_loss_min, valid_loss))
+            print('Validation loss decreased ({:.6f} --> {:.6f}).    Model Saved......'.format(valid_loss_min, valid_loss))
             # save_ckp(checkpoint, model, True, checkpoint_path, best_model_path, final_model_path)
             valid_loss_min = valid_loss
     return model
