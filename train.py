@@ -18,8 +18,6 @@ train_manifest = train_parameters["train_manifest"]
 # outputs
 checkpoint_path = train_parameters["checkpoint_path"]
 
-create_output_dirs(checkpoint_path)
-
 # Hyperparameters
 batch_size = int(train_parameters["batch_size"])
 learning_rate = float(train_parameters["learning_rate"])
@@ -40,5 +38,4 @@ optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 criterion = nn.CrossEntropyLoss()
 
 # start model trainning
-trained_model = train(1, num_epochs, device, np.Inf, loaders, model, optimizer, criterion, use_cuda,
-                      current_checkpoint_path, best_checkpoint_path, final_checkpoint_path)
+trained_model = train(1, num_epochs, device, np.Inf, loaders, model, optimizer, criterion, use_cuda, checkpoint_path)

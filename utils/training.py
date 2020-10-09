@@ -70,8 +70,7 @@ def save_ckp(state, model, is_best, checkpoint_path, best_model_path, final_mode
 
 
 def train(start_epochs, n_epochs, device, valid_loss_min_input, loaders, model, optimizer, criterion, use_cuda,
-          checkpoint_path,
-          best_model_path, final_model_path):
+          checkpoint_path):
     """
     Keyword arguments:
     start_epochs -- the real part (default 0.0)
@@ -91,6 +90,13 @@ def train(start_epochs, n_epochs, device, valid_loss_min_input, loaders, model, 
     scheduler = ReduceLROnPlateau(optimizer, mode='min', factor=1e-1, patience=1, verbose=True)
     valid_loss_min = valid_loss_min_input
 
+    # create checkpoints
+    path = checkpoint_path
+    checkpoint_path = os.path.join(path, "current_checkpoint", "current_checkpoint.pt")
+    best_model_path = os.path.join(path, "best_model", "best_checkpoint.pt")
+    final_model_path = os.path.join(path, "final_model", "final_model.pt")
+
+    # load checkpoint from last run if available
     if os.path.isfile(checkpoint_path):
         print("loaded model from ", checkpoint_path)
         checkpoint = torch.load(checkpoint_path)
@@ -98,6 +104,8 @@ def train(start_epochs, n_epochs, device, valid_loss_min_input, loaders, model, 
         optimizer.load_state_dict(checkpoint['optimizer'])
         start_epochs = checkpoint['epoch']
         valid_loss_min = checkpoint['valid_loss_min']
+
+    create_output_dirs(path)
 
     for epoch in range(start_epochs, n_epochs + 1):
         # initialize variables to monitor training and validation loss
