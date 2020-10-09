@@ -14,7 +14,7 @@ train_parameters = load_yaml_file("train_config.yml")["train_parameters"]
 
 # inputs
 train_manifest = train_parameters["train_manifest"]
-
+valid_manifest = train_parameters["valid_manifest"]
 # outputs
 checkpoint_path = train_parameters["checkpoint_path"]
 
@@ -25,7 +25,7 @@ num_epochs = int(train_parameters["num_epochs"])
 num_workers = int(train_parameters["num_workers"])
 
 # Load_Data
-loaders = load_data_loaders(train_manifest, batch_size, num_workers)
+loaders = load_data_loaders(train_manifest,valid_manifest, batch_size, num_workers)
 
 # Load Model
 model = get_model(device)

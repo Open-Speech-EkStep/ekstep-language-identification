@@ -1,6 +1,7 @@
 train_parameters:
-  train_manifest: "train_data.csv"
-  batch_size: 8
+  train_manifest: "data/train_data.csv"
+  valid_manifest: "data/valid_data.csv"
+  batch_size: 128
   learning_rate: 1e-3
   num_epochs: 100
   num_workers: 10

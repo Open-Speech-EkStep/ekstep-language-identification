@@ -26,16 +26,16 @@ def load_yaml_file(path):
 
 
 # Load Data
-def load_data_loaders(train_manifest, batch_size, num_workers):
-    dataset = SpeechDataGenerator(manifest=train_manifest, mode='train')
+def load_data_loaders(train_manifest,valid_manifest, batch_size, num_workers):
+    dataset1 = SpeechDataGenerator(manifest=train_manifest, mode='train')
+    dataset2 = SpeechDataGenerator(manifest=valid_manifest, mode='train')
+    # train_size = int(0.9 * len(dataset))
+    # test_size = len(dataset) - train_size
+    #
+    # train_set, test_set = torch.utils.data.random_split(dataset, [train_size, test_size])
 
-    train_size = int(0.9 * len(dataset))
-    test_size = len(dataset) - train_size
-
-    train_set, test_set = torch.utils.data.random_split(dataset, [train_size, test_size])
-
-    train_loader = DataLoader(dataset=train_set, batch_size=batch_size, shuffle=True, num_workers=num_workers)
-    test_loader = DataLoader(dataset=test_set, batch_size=batch_size, shuffle=True, num_workers=num_workers)
+    train_loader = DataLoader(dataset=dataset1, batch_size=batch_size, shuffle=True, num_workers=num_workers)
+    test_loader = DataLoader(dataset=dataset2, batch_size=batch_size, shuffle=True, num_workers=num_workers)
 
     loaders = {
         'train': train_loader,
