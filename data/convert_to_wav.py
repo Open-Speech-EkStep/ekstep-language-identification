@@ -7,10 +7,7 @@ from tqdm import tqdm
 
 def wav_convert(new_path, file_path):
     new_file_path = os.path.join(new_path, file_path.parent.stem, file_path.stem + ".wav")
-    try:
-        os.makedirs(os.path.join(new_path, file_path.parent.stem))
-    except:
-        pass
+    os.makedirs(os.path.join(new_path, file_path.parent.stem), exist_ok=True)
     cmd = "ffmpeg -i " + str(file_path) + " -ar 16000 -ac 1 -bits_per_raw_sample 16 -vn " + str(new_file_path)
     os.system(cmd)
 
