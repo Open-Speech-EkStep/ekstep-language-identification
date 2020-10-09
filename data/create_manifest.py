@@ -1,6 +1,5 @@
 import os
 from pathlib import Path
-import soundfile
 
 train_file_name = "train_data.csv"
 valid_file_name = "valid_data.csv"
@@ -24,8 +23,7 @@ def create_manifest(path, label, ext, mode):
         file_name = "valid_data.csv"
     file = open(file_name, "a+", encoding="utf-8")
     for path in audio_path:
-        if soundfile.info(path).frames >= 40000:
-            print(str(str(path) + "," + str(label)), file=file)
+        print(str(str(path) + "," + str(label)), file=file)
 
 
 if __name__ == "__main__":

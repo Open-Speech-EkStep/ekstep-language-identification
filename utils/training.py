@@ -61,7 +61,7 @@ def save_ckp(state, model, valid_loss, valid_loss_min, checkpoint_path, best_mod
     """
     if save_for_each_epoch:
         checkpoint_name = checkpoint_path.split("/")[-1]
-        new_checkpoint_name = str(state['epoch']) + "_" + checkpoint_name
+        new_checkpoint_name = str(state['epoch']-1) + "_" + checkpoint_name
         f_path = os.path.join(checkpoint_path.replace(checkpoint_name, new_checkpoint_name))
         torch.save(state, f_path)
 
