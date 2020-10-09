@@ -24,7 +24,7 @@ def load_model(model_path):
     return model
 
 
-def forward(audio, model, mode='train'):
+def forward(audio, model, mode='test'):
     try:
         model.eval()
         spec = utils.load_data(audio, mode=mode)[np.newaxis, ...]

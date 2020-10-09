@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 from torchvision.models import resnet18
 
-torch.manual_seed(0)
+# torch.manual_seed(0)
 
 
 def get_model(device):

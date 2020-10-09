@@ -26,7 +26,7 @@ def load_yaml_file(path):
 
 
 # Load Data
-def load_data_loaders(train_manifest,valid_manifest, batch_size, num_workers):
+def load_data_loaders(train_manifest, valid_manifest, batch_size, num_workers):
     dataset1 = SpeechDataGenerator(manifest=train_manifest, mode='train')
     dataset2 = SpeechDataGenerator(manifest=valid_manifest, mode='train')
     # train_size = int(0.9 * len(dataset))
@@ -51,18 +51,25 @@ def show_model_parameters(model):
           params)
 
 
-def save_ckp(state, model, is_best, checkpoint_path, best_model_path, final_model_path):
+def save_ckp(state, model, valid_loss, valid_loss_min, checkpoint_path, best_model_path, final_model_path,
+             save_for_each_epoch):
     """
     state: checkpoint we want to save
     is_best: is this the best checkpoint; min validation loss
     checkpoint_path: path to save checkpoint
     best_model_path: path to save best model
     """
+    if save_for_each_epoch:
+        checkpoint_name = checkpoint_path.split("/")[-1]
+        new_checkpoint_name = str(state['epoch']) + "_" + checkpoint_name
+        f_path = os.path.join(checkpoint_path.replace(checkpoint_name, new_checkpoint_name))
+        torch.save(state, f_path)
+
     f_path = checkpoint_path
     # save checkpoint data to the path given, checkpoint_path
     torch.save(state, f_path)
     # if it is a best model, min validation loss
-    if is_best:
+    if valid_loss <= valid_loss_min:
         best_fpath = best_model_path
         torch.save(model, final_model_path)
         # copy that checkpoint file to best path given, best_model_path
@@ -70,7 +77,7 @@ def save_ckp(state, model, is_best, checkpoint_path, best_model_path, final_mode
 
 
 def train(start_epochs, n_epochs, device, valid_loss_min_input, loaders, model, optimizer, criterion, use_cuda,
-          checkpoint_path):
+          checkpoint_path, save_for_each_epoch=True):
     """
     Keyword arguments:
     start_epochs -- the real part (default 0.0)
@@ -193,10 +200,11 @@ def train(start_epochs, n_epochs, device, valid_loss_min_input, loaders, model, 
 
         scheduler.step(valid_loss)
         # save checkpoint
-        save_ckp(checkpoint, model, False, checkpoint_path, best_model_path, final_model_path)
+        save_ckp(checkpoint, model, valid_loss, valid_loss_min, checkpoint_path, best_model_path, final_model_path,
+                 save_for_each_epoch)
 
         if valid_loss <= valid_loss_min:
-            print('Validation loss decreased ({:.6f} --> {:.6f}).  Saving model ...'.format(valid_loss_min, valid_loss))
-            save_ckp(checkpoint, model, True, checkpoint_path, best_model_path, final_model_path)
+            print('Validation loss decreased ({:.6f} --> {:.6f})'.format(valid_loss_min, valid_loss))
+            # save_ckp(checkpoint, model, True, checkpoint_path, best_model_path, final_model_path)
             valid_loss_min = valid_loss
     return model

@@ -46,11 +46,12 @@ def load_data(filepath, sr=16000, min_dur_sec=5, win_length=400, hop_length=160,
     mag_T = mag.T
 
     if mode == 'train':
-        np.random.seed(0)
         randtime = np.random.randint(0, mag_T.shape[1] - spec_len)
         spec_mag = mag_T[:, randtime:randtime + spec_len]
     else:
-        spec_mag = mag_T
+        np.random.seed(0)
+        randtime = np.random.randint(0, mag_T.shape[1] - spec_len)
+        spec_mag = mag_T[:, randtime:randtime + spec_len]
 
     # preprocessing, subtract mean, divided by time-wise var
     mu = np.mean(spec_mag, 0, keepdims=True)
