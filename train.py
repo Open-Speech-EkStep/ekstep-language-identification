@@ -28,7 +28,7 @@ num_workers = int(train_parameters["num_workers"])
 loaders = load_data_loaders(train_manifest, valid_manifest, batch_size, num_workers)
 
 # Load Model
-model = get_model(device)
+model = get_model(device,pretrained=False)
 
 # Display model parameters
 show_model_parameters(model)
