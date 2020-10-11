@@ -149,8 +149,8 @@ def train(start_epochs, n_epochs, device, valid_loss_min_input, loaders, model, 
 
             train_loss = train_loss + ((1 / (batch_idx + 1)) * (loss.data - train_loss))
 
-        train_predict = train_predict + temp_predict
-        train_target = train_target + temp_target
+            train_predict = train_predict + temp_predict
+            train_target = train_target + temp_target
 
         ######################
         # validate the model #
@@ -171,8 +171,8 @@ def train(start_epochs, n_epochs, device, valid_loss_min_input, loaders, model, 
             temp_predict = [pred.item() for pred in predictions]
             temp_target = [actual.item() for actual in target]
 
-        valid_predict = valid_predict + temp_predict
-        valid_target = valid_target + temp_target
+            valid_predict = valid_predict + temp_predict
+            valid_target = valid_target + temp_target
 
         # calculate average losses
         train_loss = train_loss / len(loaders['train'].dataset)
