@@ -5,4 +5,5 @@ train_parameters:
   learning_rate: 1e-3
   num_epochs: 100
   num_workers: 10
+  num_classes: 3
   checkpoint_path: "checkpoints"

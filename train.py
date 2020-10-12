@@ -23,12 +23,13 @@ batch_size = int(train_parameters["batch_size"])
 learning_rate = float(train_parameters["learning_rate"])
 num_epochs = int(train_parameters["num_epochs"])
 num_workers = int(train_parameters["num_workers"])
+num_classes = int(train_parameters["num_classes"])
 
 # Load_Data
 loaders = load_data_loaders(train_manifest, valid_manifest, batch_size, num_workers)
 
 # Load Model
-model = get_model(device,pretrained=False)
+model = get_model(device, num_classes, pretrained=False)
 
 # Display model parameters
 show_model_parameters(model)
