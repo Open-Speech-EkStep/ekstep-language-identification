@@ -66,5 +66,5 @@ def evaluation(audio_path, model_path):
 if __name__ == "__main__":
     # Just edit model_path and audio_path
     model_path = './checkpoints/models-language_identification-Languages_vs_Songs-final_model.pt'
-    audio_path = './Unit_testing_audio_files/Songs_test_set/Punjabi/Punjabi_1_chunk_1.wav'
+    audio_path = 'Unit_testing_files/Songs_test_set/Punjabi/Punjabi_1_chunk_1.wav'
     print(evaluation(audio_path, model_path))
