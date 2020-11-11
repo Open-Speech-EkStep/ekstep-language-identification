@@ -18,10 +18,10 @@ def load_model(model_path):
         # model.load_state_dict(checkpoint['state_dict'])
         model.eval()
         print("Model loaded from ", model_path)
+        return model
     else:
         print("Saved model not found")
         exit(1)
-    return model
 
 
 def forward(audio, model, mode='test'):
