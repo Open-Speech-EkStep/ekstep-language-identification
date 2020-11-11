@@ -1,3 +1,5 @@
 .idea
 Test_sets_chunks
 checkpoints
+.DS_Store
+utils/__pycache__/
