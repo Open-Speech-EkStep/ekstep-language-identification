@@ -15,7 +15,7 @@ WORKDIR /opt/ekstep-language-identification/
 
 # Installing python dependencies
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r requirements.txt
 
 # Copy all the files from the project’s root to the working directory
 COPY . /opt/ekstep-language-identification/
@@ -23,3 +23,5 @@ RUN ls -la /opt/ekstep-language-identification/*
 
 ## Running Python Application
 #CMD ["python3", "/src/main.py"]
+ENTRYPOINT ["/bin/bash", "invocation_script.sh"]
+CMD ["hindi_path","english_path"]

@@ -1,8 +1,10 @@
-import os
+import os, sys
 from pathlib import Path
 
 train_file_name = "train_data.csv"
 valid_file_name = "valid_data.csv"
+train_hindi_path = sys.argv[1]
+train_english_path = sys.argv[2]
 
 if os.path.isfile(train_file_name) or os.path.isfile(valid_file_name):
     try:
@@ -20,16 +22,16 @@ def create_manifest(path, label, ext, mode):
     if mode.lower() == "train":
         file_name = train_file_name
     else:
-        file_name = "valid_data.csv"
+        file_name = valid_file_name
     file = open(file_name, "a+", encoding="utf-8")
     for path in audio_path:
         print(str(str(path) + "," + str(label)), file=file)
 
 
 if __name__ == "__main__":
-    create_manifest(path="/home/jupyter/language_identification_data/train_hindi", label=0, ext="wav", mode="Train")
-    create_manifest(path="/home/jupyter/language_identification_data/train_english", label=1, ext="wav", mode="Train")
-    create_manifest(path="/home/jupyter/language_identification_data/train_tamil", label=2, ext="wav", mode="Train")
-    create_manifest(path="/home/jupyter/language_identification_data/valid_hindi", label=0, ext="wav", mode="valid")
-    create_manifest(path="/home/jupyter/language_identification_data/valid_english", label=1, ext="wav", mode="valid")
-    create_manifest(path="/home/jupyter/language_identification_data/valid_tamil", label=2, ext="wav", mode="valid")
+    create_manifest(path=train_hindi_path, label=0, ext="wav", mode="Train")
+    create_manifest(path=train_english_path, label=1, ext="wav", mode="Train")
+    # create_manifest(path="/home/jupyter/language_identification_data/train_tamil", label=2, ext="wav", mode="Train")
+    create_manifest(path=train_hindi_path, label=0, ext="wav", mode="valid")
+    create_manifest(path=train_english_path, label=1, ext="wav", mode="valid")
+    # create_manifest(path="/home/jupyter/language_identification_data/valid_tamil", label=2, ext="wav", mode="valid")
