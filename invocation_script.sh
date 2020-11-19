@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-#echo `pwd`
-#echo $1
-#echo $2
+echo `pwd`
+echo $1
+echo $2
 #create manifests
-python data/create_manifest.py $1 $2
+python3 data/create_manifest.py $1 $2
 #Start model train
-python train.py
+python3 train.py
 #sleep 1000
