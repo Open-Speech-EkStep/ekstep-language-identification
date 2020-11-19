@@ -6,4 +6,4 @@ train_parameters:
   num_epochs: 100
   num_workers: 10
   num_classes: 3
-  checkpoint_path: "checkpoints"
+  checkpoint_path: "/training_data/checkpoints"
