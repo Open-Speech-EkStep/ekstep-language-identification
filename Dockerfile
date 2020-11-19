@@ -4,7 +4,7 @@ FROM python:3.8.6
 # install build utilities
 RUN apt-get update && \
 	apt-get install -y gcc make apt-transport-https ca-certificates build-essential
-
+RUN apt-get install libsndfile1-dev
 # check our python environment
 RUN python3 --version
 RUN pip3 --version
