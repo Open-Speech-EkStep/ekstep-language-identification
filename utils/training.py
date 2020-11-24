@@ -8,7 +8,7 @@ from sklearn.metrics import accuracy_score
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 from torch.utils.data import DataLoader
 from tqdm import tqdm
-
+import mlflow
 from loaders.data_loader import SpeechDataGenerator
 
 
@@ -61,7 +61,7 @@ def save_ckp(state, model, valid_loss, valid_loss_min, checkpoint_path, best_mod
     """
     if save_for_each_epoch:
         checkpoint_name = final_model_path.split("/")[-1]
-        new_checkpoint_name = str(state['epoch']-1) + "_" + checkpoint_name
+        new_checkpoint_name = str(state['epoch'] - 1) + "_" + checkpoint_name
         f_path = os.path.join(final_model_path.replace(checkpoint_name, new_checkpoint_name))
         torch.save(model, f_path)
 
@@ -72,6 +72,7 @@ def save_ckp(state, model, valid_loss, valid_loss_min, checkpoint_path, best_mod
     if valid_loss <= valid_loss_min:
         best_fpath = best_model_path
         torch.save(model, final_model_path)
+        mlflow.pytorch.log_model(model, "LID_MODEL", registered_model_name="LID_MODEL")
         # copy that checkpoint file to best path given, best_model_path
         shutil.copyfile(f_path, best_fpath)
 
@@ -189,7 +190,10 @@ def train(start_epochs, n_epochs, device, valid_loss_min_input, loaders, model, 
                 valid_loss,
                 valid_acc
             ))
-
+        mlflow.log_metric("train_loss", train_loss)
+        mlflow.log_metric("train_acc", train_acc)
+        mlflow.log_metric("valid_loss", valid_loss)
+        mlflow.log_metric("valid_acc", valid_acc)
         # create checkpoint variable and add important data
         checkpoint = {
             'epoch': epoch + 1,
@@ -204,7 +208,8 @@ def train(start_epochs, n_epochs, device, valid_loss_min_input, loaders, model, 
                  save_for_each_epoch)
 
         if valid_loss <= valid_loss_min:
-            print('Validation loss decreased ({:.6f} --> {:.6f}).    Model Saved......'.format(valid_loss_min, valid_loss))
+            print('Validation loss decreased ({:.6f} --> {:.6f}).    Model Saved......'.format(valid_loss_min,
+                                                                                               valid_loss))
             # save_ckp(checkpoint, model, True, checkpoint_path, best_model_path, final_model_path)
             valid_loss_min = valid_loss
     return model
