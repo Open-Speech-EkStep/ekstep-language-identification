@@ -72,7 +72,6 @@ def save_ckp(state, model, valid_loss, valid_loss_min, checkpoint_path, best_mod
     if valid_loss <= valid_loss_min:
         best_fpath = best_model_path
         torch.save(model, final_model_path)
-        mlflow.pytorch.log_model(model, "LID_MODEL", registered_model_name="LID_MODEL")
         # copy that checkpoint file to best path given, best_model_path
         shutil.copyfile(f_path, best_fpath)
 
@@ -190,10 +189,10 @@ def train(start_epochs, n_epochs, device, valid_loss_min_input, loaders, model, 
                 valid_loss,
                 valid_acc
             ))
-        mlflow.log_metric("train_loss", train_loss)
-        mlflow.log_metric("train_acc", train_acc)
-        mlflow.log_metric("valid_loss", valid_loss)
-        mlflow.log_metric("valid_acc", valid_acc)
+        mlflow.log_metric("train_loss", float("{:.4f}".format(train_loss)))
+        mlflow.log_metric("train_acc", float("{:.4f}".format(train_acc)))
+        mlflow.log_metric("valid_loss", float("{:.4f}".format(valid_loss)))
+        mlflow.log_metric("valid_acc", float("{:.4f}".format(valid_acc)))
         # create checkpoint variable and add important data
         checkpoint = {
             'epoch': epoch + 1,

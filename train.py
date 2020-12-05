@@ -5,7 +5,7 @@ from models.model import get_model
 from utils.training import *
 import mlflow
 # torch.manual_seed(0)
-mlflow.set_tracking_uri('http://0.0.0.0:5000')
+mlflow.set_tracking_uri('http://0.0.0.0:9000')
 # Set Device
 with mlflow.start_run():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -48,3 +48,4 @@ with mlflow.start_run():
     # start model training
     trained_model = train(1, num_epochs, device, np.Inf, loaders, model, optimizer, criterion, use_cuda, checkpoint_path,
                           save_for_each_epoch=True)
+    mlflow.pytorch.log_model(trained_model, "LID_MODEL", registered_model_name="LID_MODEL")

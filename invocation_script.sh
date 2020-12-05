@@ -6,5 +6,5 @@ echo $2
 #create manifests
 python3 data/create_manifest.py $1 $2
 #Start model train
-python3 train.py
+nohup python3 train.py &
 #sleep 1000
