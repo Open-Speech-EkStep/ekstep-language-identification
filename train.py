@@ -9,7 +9,7 @@ tracking_uri = sys.argv[1]
 # torch.manual_seed(0)
 mlflow.set_tracking_uri(tracking_uri)
 # Set Device
-with mlflow.start_run():
+with mlflow.start_run(run_name='Training_LID_Model'):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     use_cuda = torch.cuda.is_available()
 

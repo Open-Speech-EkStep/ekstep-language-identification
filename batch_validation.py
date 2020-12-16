@@ -11,7 +11,6 @@ from tqdm import tqdm
 from sklearn.metrics import roc_curve, roc_auc_score, precision_recall_curve
 from sklearn.metrics import auc as au
 from loaders.data_loader import SpeechDataGenerator
-import matplotlib.pyplot as plt
 import numpy as np
 import mlflow
 import mlflow.pyfunc
@@ -46,6 +45,8 @@ def load_model():
     model = mlflow.pytorch.load_model(
         model_uri=f"models:/{model_name}/{model_version}"
     )
+    print(f"Model fetched with name : {model_name} and version {model_version}")
+    print(model)
     return model
 
 
@@ -145,6 +146,6 @@ def validation(loaders, model, use_cuda):
     mlflow.log_metric("Accuracy", accuracy)
     return accuracy
 
-
-validation(loaders, model, use_cuda)
+with mlflow.start_run(run_name='Validation_LID_Model'):
+    validation(loaders, model, use_cuda)
 # os.remove("validation_data.csv")
