@@ -20,7 +20,7 @@ with mlflow.start_run():
     valid_manifest = train_parameters["valid_manifest"]
     # outputs
     checkpoint_path = train_parameters["checkpoint_path"]
-
+    model_name = train_parameters["model_name"]
     # Hyperparameters
     batch_size = int(train_parameters["batch_size"])
     learning_rate = float(train_parameters["learning_rate"])
@@ -51,4 +51,4 @@ with mlflow.start_run():
     trained_model = train(1, num_epochs, device, np.Inf, loaders, model, optimizer, criterion, use_cuda,
                           checkpoint_path,
                           save_for_each_epoch=True)
-    mlflow.pytorch.log_model(trained_model, "LID_MODEL", registered_model_name="LID_MODEL")
+    mlflow.pytorch.log_model(trained_model, "LID_MODEL", registered_model_name=model_name)

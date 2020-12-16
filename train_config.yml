@@ -7,3 +7,4 @@ train_parameters:
   num_workers: 10
   num_classes: 3
   checkpoint_path: "/training_data/checkpoints"
+  model_name: "LID_MODEL"
