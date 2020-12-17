@@ -26,8 +26,8 @@ model = load_model()
 
 run_id = model.metadata.run_id
 accuracy_metric = client.get_metric_history(run_id, "Accuracy")[-1].value
-
-if accuracy_metric>=accuracy_score_threshold:
+print(f"The accuracy metric is {accuracy_metric}")
+if accuracy_metric >= accuracy_score_threshold:
     print('Model accepted')
 else:
     print('Model rejected')
