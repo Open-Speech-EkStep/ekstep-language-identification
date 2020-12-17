@@ -26,31 +26,31 @@ jobs:
     working_directory: ~/project/
     steps:
       - when:
-          condition: << pipeline.parameters.build_and_deploy_image >>
-          steps:
-            - checkout:
-                path: ~/project
-            - run:
-                name: build image
-                command: |
-                  echo ${GOOGLE_AUTH} > ${HOME}/gcp-key.json
-                  pip install google_compute_engine
-                  gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
-                  gcloud --quiet config set project ${GCP_PROJECT}
-                  echo "Build ..."
-                  docker build --rm=false -t us.gcr.io/${GCP_PROJECT}/lid_model:<< parameters.package_version >> -t us.gcr.io/${GCP_PROJECT}/lid_model:<< parameters.package_version >> .
-            -run:
-              name: deploy image to registry
+        condition: << pipeline.parameters.build_and_deploy_image >>
+        steps:
+          - checkout:
+              path: ~/project
+          - run:
+              name: build image
               command: |
-                gcloud docker -- push us.gcr.io/${GCP_PROJECT}/lid_model
-            -run:
-              name: Remove account details
-              command: rm ${HOME}/gcp-key.json ; ls
-      - unless:
-          steps:
-            - run:
-                name: image deployment not set to true
-                command: echo "Image not deployed"
+                echo ${GOOGLE_AUTH} > ${HOME}/gcp-key.json
+                pip install google_compute_engine
+                gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
+                gcloud --quiet config set project ${GCP_PROJECT}
+                echo "Build ..."
+                docker build --rm=false -t us.gcr.io/${GCP_PROJECT}/lid_model:<< parameters.package_version >> -t us.gcr.io/${GCP_PROJECT}/lid_model:<< parameters.package_version >> .
+          -run:
+            name: deploy image to registry
+            command: |
+              gcloud docker -- push us.gcr.io/${GCP_PROJECT}/lid_model
+          -run:
+            name: Remove account details
+            command: rm ${HOME}/gcp-key.json ; ls
+    - unless:
+        steps:
+          - run:
+              name: image deployment not set to true
+              command: echo "Image not deployed"
 
 
 workflows:
