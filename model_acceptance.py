@@ -6,6 +6,7 @@ import sys
 accuracy_score_threshold = sys.argv[1]
 valid_parameters = load_yaml_file("train_config.yml")["train_parameters"]
 model_name = valid_parameters["model_name"]
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 client = MlflowClient()
 
@@ -23,8 +24,10 @@ def load_model():
 
 
 model = load_model()
+model.to(device)
 
 run_id = model.metadata.run_id
+print(f'The run_id is {run_id}')
 accuracy_metric = client.get_metric_history(run_id, "Accuracy")[-1].value
 print(f"The accuracy metric is {accuracy_metric}")
 if accuracy_metric >= accuracy_score_threshold:

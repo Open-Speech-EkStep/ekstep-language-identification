@@ -77,6 +77,8 @@ loaders = {
 # model = torch.load(checkpoint_path)
 model = load_model()
 model.to(device)
+run_id = model.metadata.run_id
+print(f'The run_id is {run_id}')
 
 
 def create_output(confidence_scores):
@@ -146,6 +148,7 @@ def validation(loaders, model, use_cuda):
     mlflow.log_metric("Accuracy", accuracy)
     return accuracy
 
-with mlflow.start_run(run_name='Validation_LID_Model'):
+
+with mlflow.start_run(run_id=run_id):
     validation(loaders, model, use_cuda)
 # os.remove("validation_data.csv")
