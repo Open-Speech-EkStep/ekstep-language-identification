@@ -39,11 +39,11 @@ jobs:
                 gcloud --quiet config set project ${GCP_PROJECT}
                 echo "Build ..."
                 docker build --rm=false -t us.gcr.io/${GCP_PROJECT}/lid_model:<< parameters.package_version >> -t us.gcr.io/${GCP_PROJECT}/lid_model:<< parameters.package_version >> .
-          -run:
+          - run:
             name: deploy image to registry
             command: |
               gcloud docker -- push us.gcr.io/${GCP_PROJECT}/lid_model
-          -run:
+          - run:
             name: Remove account details
             command: rm ${HOME}/gcp-key.json ; ls
     - unless:
