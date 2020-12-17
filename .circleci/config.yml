@@ -46,11 +46,11 @@ jobs:
           - run:
             name: Remove account details
             command: rm ${HOME}/gcp-key.json ; ls
-    - unless:
-        steps:
-          - run:
-              name: image deployment not set to true
-              command: echo "Image not deployed"
+      - unless:
+          steps:
+            - run:
+                name: image deployment not set to true
+                command: echo "Image not deployed"
 
 
 workflows:
