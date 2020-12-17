@@ -8,8 +8,6 @@ accuracy_score_threshold = sys.argv[2]
 mlflow.set_tracking_uri(tracking_uri)
 valid_parameters = load_yaml_file("train_config.yml")["train_parameters"]
 model_name = valid_parameters["model_name"]
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
 client = MlflowClient()
 
 
@@ -19,12 +17,24 @@ def load_model_metadata():
 
     return mv
 
+def model_transition(client, model_metadata, stage):
+    print(f"Promoting model to {stage} layer...")
+    client.transition_model_version_stage(
+        name=model_metadata.name,
+        version=model_metadata.version,
+        stage=stage
+    )
+    print(f"Promoted model to {stage} layer")
 
+model_metadata = load_model_metadata()
 run_id = load_model_metadata().run_id
 print(f'The run_id is {run_id}')
 accuracy_metric = client.get_metric_history(run_id, "test_accuracy")[-1].value
 print(f"The test accuracy metric is {accuracy_metric}")
+
+
 if accuracy_metric >= float(accuracy_score_threshold):
     print('Model accepted')
+    model_transition(client, model_metadata, 'staging')
 else:
     print('Model rejected')
