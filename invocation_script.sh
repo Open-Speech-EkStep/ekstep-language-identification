@@ -23,7 +23,7 @@ elif [ $mode = "validation" ]; then
   python3 batch_validation.py $tracking_ui $validation_set
 elif [ $mode = "acceptance" ]; then
   echo "The mode is acceptance...."
-  python3 model_acceptance.py .90
+  python3 model_acceptance.py $tracking_ui .90
 elif [ $mode = "staging" ]; then
   echo "The mode is promote to staging...."
 else
