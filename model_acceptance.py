@@ -23,8 +23,8 @@ def load_model_metadata():
 
 run_id = load_model_metadata().run_id
 print(f'The run_id is {run_id}')
-accuracy_metric = client.get_metric_history(run_id, "Accuracy")[-1].value
-print(f"The accuracy metric is {accuracy_metric}")
+accuracy_metric = client.get_metric_history(run_id, "test_accuracy")[-1].value
+print(f"The test accuracy metric is {accuracy_metric}")
 if accuracy_metric >= accuracy_score_threshold:
     print('Model accepted')
 else:

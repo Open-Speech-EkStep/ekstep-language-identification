@@ -144,7 +144,7 @@ def validation(loaders, model, use_cuda):
     print("Accuracy: ", accuracy)
     print(classification_report(Y_true, Y_pred))
     print(confusion_matrix(Y_true, Y_pred))
-    mlflow.log_metric("Accuracy", accuracy)
+    mlflow.log_metric("test_accuracy", accuracy)
     return accuracy
 
 
