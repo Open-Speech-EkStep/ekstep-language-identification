@@ -8,6 +8,9 @@ parameters:
   build_and_deploy_image:
     type: boolean
     default: true
+  package_version:
+    type: string
+    default: 1.0.0
 
 executors:
   node:
@@ -16,11 +19,6 @@ executors:
 
 jobs:
   build_and_deploy_image:
-    parameters:
-      package_version:
-        type: string
-      env_name:
-        type: string
     machine:
       image: ubuntu-1604:201903-01
     working_directory: ~/project/
@@ -40,19 +38,19 @@ jobs:
                 echo "Build ..."
                 docker build --rm=false -t us.gcr.io/${GCP_PROJECT}/lid_model:<< parameters.package_version >> -t us.gcr.io/${GCP_PROJECT}/lid_model:<< parameters.package_version >> .
           - run:
-            name: deploy image to registry
-            command: |
-              gcloud docker -- push us.gcr.io/${GCP_PROJECT}/lid_model
+              name: deploy image to registry
+              command: |
+                gcloud docker -- push us.gcr.io/${GCP_PROJECT}/lid_model
           - run:
-            name: Remove account details
-            command: rm ${HOME}/gcp-key.json ; ls
+              name: Remove account details
+              command: rm ${HOME}/gcp-key.json ; ls
       - unless:
-          condition: << pipeline.parameters.build_and_deploy_image >>
-          steps:
-            - run:
-                name: image deployment not set to true
-                command: |
-                  echo 'Image not deployed'
+        condition: << pipeline.parameters.build_and_deploy_image >>
+        steps:
+          - run:
+              name: image deployment not set to true
+              command: |
+                echo 'Image not deployed'
 
 
 workflows:
