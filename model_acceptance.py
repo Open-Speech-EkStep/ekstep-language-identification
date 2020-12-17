@@ -3,7 +3,9 @@ from mlflow.tracking import MlflowClient
 from utils.training import *
 import sys
 
-accuracy_score_threshold = sys.argv[1]
+tracking_uri = sys.argv[1]
+accuracy_score_threshold = sys.argv[2]
+mlflow.set_tracking_uri(tracking_uri)
 valid_parameters = load_yaml_file("train_config.yml")["train_parameters"]
 model_name = valid_parameters["model_name"]
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")

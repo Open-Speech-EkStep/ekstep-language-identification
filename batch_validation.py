@@ -41,13 +41,13 @@ def load_model():
     client = MlflowClient()
     for mv in client.search_model_versions(f"name='{model_name}'"):
         model_version = int(mv.version)
-
+    print(mv)
     model = mlflow.pytorch.load_model(
         model_uri=f"models:/{model_name}/{model_version}"
     )
     print(f"Model fetched with name : {model_name} and version {model_version}")
     print(model)
-    return model
+    return model,mv
 
 
 def create_manifest(path, label, ext):
@@ -75,9 +75,9 @@ loaders = {
 # model.fc = nn.Linear(512, 3)
 # model.conv1 = nn.Conv2d(1, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3), bias=False)
 # model = torch.load(checkpoint_path)
-model = load_model()
+model, metadata = load_model()
 model.to(device)
-run_id = model.metadata.run_id
+run_id = metadata.run_id
 print(f'The run_id is {run_id}')
 
 
