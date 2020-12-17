@@ -17,7 +17,7 @@ if [ $mode = "train" ]; then
   #create manifests
   python3 data/create_manifest.py $train_set $validation_set
   #Start model train
-  nohup python3 train.py $tracking_ui &
+  python3 train.py $tracking_ui
 elif [ $mode = "validation" ]; then
   echo "The mode is validation...."
   python3 batch_validation.py $tracking_ui $validation_set
