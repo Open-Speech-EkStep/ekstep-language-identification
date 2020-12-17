@@ -52,7 +52,7 @@ jobs:
             - run:
                 name: image deployment not set to true
                 command: |
-                echo "Image not deployed"
+                  echo 'Image not deployed'
 
 
 workflows:
