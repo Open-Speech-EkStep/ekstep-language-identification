@@ -13,22 +13,15 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 client = MlflowClient()
 
 
-def load_model():
+def load_model_metadata():
     for mv in client.search_model_versions(f"name='{model_name}'"):
         model_version = int(mv.version)
 
-    model = mlflow.pytorch.load_model(
-        model_uri=f"models:/{model_name}/{model_version}"
-    )
-    print(f"Model fetched with name : {model_name} and version {model_version}")
-    print(model)
-    return model
+
+    return mv
 
 
-model = load_model()
-model.to(device)
-
-run_id = model.metadata.run_id
+run_id = load_model_metadata().run_id
 print(f'The run_id is {run_id}')
 accuracy_metric = client.get_metric_history(run_id, "Accuracy")[-1].value
 print(f"The accuracy metric is {accuracy_metric}")

@@ -41,7 +41,6 @@ def load_model():
     client = MlflowClient()
     for mv in client.search_model_versions(f"name='{model_name}'"):
         model_version = int(mv.version)
-    print(mv)
     model = mlflow.pytorch.load_model(
         model_uri=f"models:/{model_name}/{model_version}"
     )
