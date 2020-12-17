@@ -17,7 +17,6 @@ def load_model_metadata():
     for mv in client.search_model_versions(f"name='{model_name}'"):
         model_version = int(mv.version)
 
-
     return mv
 
 
@@ -25,7 +24,7 @@ run_id = load_model_metadata().run_id
 print(f'The run_id is {run_id}')
 accuracy_metric = client.get_metric_history(run_id, "test_accuracy")[-1].value
 print(f"The test accuracy metric is {accuracy_metric}")
-if accuracy_metric >= accuracy_score_threshold:
+if accuracy_metric >= float(accuracy_score_threshold):
     print('Model accepted')
 else:
     print('Model rejected')
