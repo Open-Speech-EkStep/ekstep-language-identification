@@ -60,7 +60,7 @@ workflows:
   build_and_deploy_image:
     when: << pipeline.parameters.trigger_pipeline >>
     jobs:
-      - build_and_deploy_image
-      - filters:
-          branches:
-            only: mlops
+      - build_and_deploy_image:
+          filters:
+            branches:
+              only: mlops
