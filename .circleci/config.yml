@@ -36,7 +36,7 @@ jobs:
                   gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
                   gcloud --quiet config set project ${GCP_PROJECT}
                   echo "Build ..."
-                  docker build --rm=false -t us.gcr.io/${GCP_PROJECT}/lid_model:<< parameters.package_version >> -t us.gcr.io/${GCP_PROJECT}/lid_model:<< parameters.package_version >> .
+                  docker build --rm=false -t us.gcr.io/${GCP_PROJECT}/lid_model:<< pipeline.parameters.package_version >> -t us.gcr.io/${GCP_PROJECT}/lid_model:<< pipeline.parameters.package_version >> .
             - run:
                 name: deploy image to registry
                 command: |
