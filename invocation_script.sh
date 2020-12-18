@@ -20,7 +20,7 @@ if [ $mode = "train" ]; then
   python3 train.py $tracking_ui
 elif [ $mode = "validation" ]; then
   echo "The mode is validation...."
-  python3 batch_validation.py $tracking_ui $validation_set
+  python3 model_validation.py $tracking_ui $validation_set
 elif [ $mode = "acceptance" ]; then
   echo "The mode is acceptance...."
   python3 model_acceptance.py $tracking_ui .90
