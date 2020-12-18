@@ -4,10 +4,10 @@ parameters:
   # This parameter is used to trigger the main workflow
   trigger_pipeline:
     type: boolean
-    default: false
+    default: true
   build_and_deploy_image:
     type: boolean
-    default: false
+    default: true
   package_version:
     type: string
     default: 1.0.0
