@@ -12,7 +12,7 @@ mlflow.set_tracking_uri(tracking_uri)
 with mlflow.start_run(run_name='Training_LID_Model'):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     use_cuda = torch.cuda.is_available()
-
+    print(f"GPU use while training {use_cuda}")
     train_parameters = load_yaml_file("train_config.yml")["train_parameters"]
 
     # inputs

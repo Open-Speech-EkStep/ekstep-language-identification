@@ -27,6 +27,7 @@ valid_parameters = load_yaml_file("train_config.yml")["train_parameters"]
 model_name = valid_parameters["model_name"]
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 use_cuda = torch.cuda.is_available()
+print(f"GPU use while training {use_cuda}")
 mlflow.set_tracking_uri(tracking_uri)
 # Hyperparameters
 batch_size = 128
