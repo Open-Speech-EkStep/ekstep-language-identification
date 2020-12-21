@@ -162,7 +162,7 @@ def train(start_epochs, n_epochs, device, valid_loss_min_input, loaders, model, 
                 data, target = data.to(device, dtype=torch.float), target.to(device)
             ## update the average validation loss
             # forward pass: compute predicted outputs by passing inputs to the model
-            output = model(data)
+            output = model(data.float())
             # calculate the batch loss
             loss = criterion(output, target)
             # update average validation loss
