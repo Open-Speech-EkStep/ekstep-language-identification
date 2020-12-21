@@ -3,7 +3,7 @@ train_parameters:
   valid_manifest: "valid_data.csv"
   batch_size: 128
   learning_rate: 1e-3
-  num_epochs: 10
+  num_epochs: 5
   num_workers: 10
   num_classes: 3
   checkpoint_path: "/training_data/checkpoints"

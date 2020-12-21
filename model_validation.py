@@ -119,7 +119,7 @@ def validation(loaders, model, use_cuda):
         if use_cuda:
             data, target = data.to(device, dtype=torch.float), target.to(device)
 
-        output = model(data)
+        output = model(data.float())
 
         loss = criterion(output, target)
 

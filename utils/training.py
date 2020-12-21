@@ -135,7 +135,7 @@ def train(start_epochs, n_epochs, device, valid_loss_min_input, loaders, model, 
             # clear the gradients of all optimized variables
             optimizer.zero_grad()
             # forward pass: compute predicted outputs by passing inputs to the model
-            output = model(data)
+            output = model(data.float())
             # calculate the batch loss
             loss = criterion(output, target)
             # backward pass: compute gradient of the loss with respect to model parameters
