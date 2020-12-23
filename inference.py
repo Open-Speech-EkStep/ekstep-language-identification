@@ -3,7 +3,8 @@ import os
 import numpy as np
 import torch
 import yaml
-
+import warnings
+warnings.filterwarnings("ignore")
 from utils import utils
 
 # check cuda available
@@ -65,6 +66,18 @@ def evaluation(audio_path, model_path):
 
 if __name__ == "__main__":
     # Just edit model_path and audio_path
-    model_path = './checkpoints/models-language_identification-Languages_vs_Songs-final_model.pt'
-    audio_path = 'Unit_testing_files/Songs_test_set/Punjabi/Punjabi_1_chunk_1.wav'
+    model_path = 'final_model_tamil_vs_other.pt'
+    audio_path = '../../Resampled_audios/Tamil_resampled/Tamil_1.wav'
+    audio_ext = audio_path.split('.')[-1]
+
+    if not os.path.isfile(model_path):
+        print("Model path is invalid")
+        exit(0)
+    if audio_ext != 'wav':
+        print("Audio is not in wav format")
+        exit(0)
+    if not os.path.isfile(audio_path):
+        print("Audio path is invalid")
+        exit(0)
+    
     print(evaluation(audio_path, model_path))
