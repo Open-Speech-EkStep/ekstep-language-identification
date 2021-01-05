@@ -4,7 +4,7 @@ CMD nvidia-smi
 RUN apt-get update && apt-get install --no-install-recommends --no-install-suggests -y curl
 RUN apt-get install unzip
 RUN apt-get -y install vim
-RUN apt-get -y install python3
+RUN apt-get -y install python3.7
 RUN apt-get -y install python3-pip
 RUN apt-get update && \
         apt-get install -y gcc make apt-transport-https ca-certificates build-essential
