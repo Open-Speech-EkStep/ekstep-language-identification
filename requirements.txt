@@ -7,4 +7,5 @@ torchvision==0.7.0
 numba==0.48.0
 tqdm
 mlflow
+Cython==0.29.21
 google-cloud-storage
