@@ -16,6 +16,8 @@ RUN pip3 --version
 RUN mkdir /opt/ekstep-language-identification/
 WORKDIR /opt/ekstep-language-identification/
 # Installing python dependencies
+RUN pip3 install numpy cython scipy
+RUN pip3 install scikit-learn
 COPY requirements.txt .
 RUN pip3 install -r requirements.txt
 # Copy all the files from the project’s root to the working directory
