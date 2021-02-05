@@ -1,40 +1,19 @@
-import mlflow.pyfunc
-from mlflow.tracking import MlflowClient
-from utils.training import *
-import sys
+from models.LIDModel import LIDModel
 
-tracking_uri = sys.argv[1]
-accuracy_score_threshold = sys.argv[2]
-mlflow.set_tracking_uri(tracking_uri)
-valid_parameters = load_yaml_file("train_config.yml")["train_parameters"]
-model_name = valid_parameters["model_name"]
-client = MlflowClient()
+lid_model = LIDModel(config_path="train_config.yml")
 
+score_threshold = lid_model.config["score_threshold"]
+model_name = lid_model.config["model_name"] + "_best"
 
-def load_model_metadata():
-    for mv in client.search_model_versions(f"name='{model_name}'"):
-        model_version = int(mv.version)
+model_details = lid_model.logger_client.fetch_models(model_name=model_name)
+best_model_version = list(model_details.keys())[-1]
+best_model_run_id = model_details[best_model_version]["model_run_id"]
+score = lid_model.logger_client.client.get_metric_history(run_id=best_model_run_id, key="test_accuracy")[-1].value
 
-    return mv
+print(f"The test accuracy metric is {score}")
 
-def model_transition(client, model_metadata, stage):
-    print(f"Promoting model to {stage} layer...")
-    client.transition_model_version_stage(
-        name=model_metadata.name,
-        version=model_metadata.version,
-        stage=stage
-    )
-    print(f"Promoted model to {stage} layer")
-
-model_metadata = load_model_metadata()
-run_id = load_model_metadata().run_id
-print(f'The run_id is {run_id}')
-accuracy_metric = client.get_metric_history(run_id, "test_accuracy")[-1].value
-print(f"The test accuracy metric is {accuracy_metric}")
-
-
-if accuracy_metric >= float(accuracy_score_threshold):
+if score >= float(score_threshold):
     print('Model accepted')
-    model_transition(client, model_metadata, 'staging')
+    lid_model.logger_client.model_transition(model_name=model_name, model_version=best_model_version, stage='staging')
 else:
     print('Model rejected')

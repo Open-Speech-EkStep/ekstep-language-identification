@@ -1,6 +1,7 @@
 train_parameters:
   train_manifest: "train_data.csv"
   valid_manifest: "valid_data.csv"
+  test_manifest: "valid_data.csv"
   batch_size: 128
   learning_rate: 1e-3
   num_epochs: 5
@@ -8,3 +9,10 @@ train_parameters:
   num_classes: 3
   checkpoint_path: "/training_data/checkpoints"
   model_name: "LID_MODEL"
+  device: "GPU"
+  pretrained: False
+  restore_training: True
+  tracking_uri: "http://0.0.0.0:9000"
+  experiment_name: "Language identification"
+  run_name: "mlops experiments"
+  score_threshold: 50
