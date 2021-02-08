@@ -35,7 +35,6 @@ class LIDModel(BaseModelArchitecture):
         self.config["score_threshold"] = float(self.config["score_threshold"])
         self.logger_client = MlLifeCycle(tracking_uri=self.config["tracking_uri"],
                                          experiment_name=self.config["experiment_name"])
-        self.logger_client.log_param(self.config)
 
     def load_config(self) -> dict:
         """Placeholder for model config loader, returns model parameters as dict"""
@@ -164,6 +163,7 @@ class LIDModel(BaseModelArchitecture):
             start_epochs = state['epoch']
             self.valid_loss_min = state['valid_loss_min']
         with mlflow.start_run(run_id=run_id, run_name=self.config["run_name"]):
+            self.logger_client.log_param(self.config)
             for epoch in range(start_epochs, self.config["num_epochs"] + 1):
                 self.task = "train"
                 train_result = self.iterator()
@@ -194,6 +194,7 @@ class LIDModel(BaseModelArchitecture):
             self.loader = self.get_loader(manifest=self.config["test_manifest"])
             self.task = "test"
             with mlflow.start_run(run_id=run_id, run_name=self.config["run_name"]):
+                self.logger_client.log_param(self.config)
                 results = self.iterator()
                 final_results["test_loss"] = results["Loss"]
                 final_results["test_accuracy"] = self.cal_accuracy(results["Predictions"], results["Targets"])
