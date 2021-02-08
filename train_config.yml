@@ -15,4 +15,4 @@ train_parameters:
   tracking_uri: "http://0.0.0.0:9000"
   experiment_name: "Language identification"
   run_name: "mlops experiments"
-  score_threshold: 50
+  score_threshold: .50
