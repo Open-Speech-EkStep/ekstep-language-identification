@@ -55,7 +55,7 @@ class LIDModel(BaseModelArchitecture):
             return state, run_id
         else:
             print("No model found")
-            pass
+            exit()
 
     def iterator(self):
         assert (self.task == "train" or self.task == "valid" or self.task == "test"), \
@@ -83,15 +83,13 @@ class LIDModel(BaseModelArchitecture):
             if self.task == "train" or self.task == "valid":
                 self.logger_client.log_metric(metrics={self.task + "_batch_Loss": loss})
 
-            _, predictions = output.max(1)
-            temp_predict = [pred.item() for pred in predictions]
+            _, prediction = output.max(1)
+            temp_predict = [pred.item() for pred in prediction]
             temp_target = [actual.item() for actual in target]
             predictions = predictions + temp_predict
             targets = targets + temp_target
 
         loss = loss / len(self.loader[self.task].dataset)
-        predictions = [p.item() for p in predictions]
-        targets = [t.item() for t in targets]
         results = {"Loss": loss, "Predictions": predictions, "Targets": targets}
 
         return results
@@ -118,7 +116,8 @@ class LIDModel(BaseModelArchitecture):
 
     def build_train_data_loaders(self):
         loaders = {"train": self.get_loader(self.config["train_manifest"]),
-                   "valid": self.get_loader(self.config["valid_manifest"])}
+                   "valid": self.get_loader(self.config["valid_manifest"]),
+                   "test": self.get_loader(self.config["test_manifest"])}
         return loaders
 
     def get_state(self, epoch):
@@ -191,7 +190,6 @@ class LIDModel(BaseModelArchitecture):
         model_name = self.config["model_name"] + "_best"
         self.model, run_id = self.restore_model_training(model_name=model_name)
         if self.model and run_id:
-            self.loader = self.get_loader(manifest=self.config["test_manifest"])
             self.task = "test"
             with mlflow.start_run(run_id=run_id, run_name=self.config["run_name"]):
                 self.logger_client.log_param(self.config)
