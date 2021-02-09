@@ -55,7 +55,7 @@ class LIDModel(BaseModelArchitecture):
             return state, run_id
         else:
             print("No model found")
-            exit()
+            return None, None
 
     def iterator(self):
         assert (self.task == "train" or self.task == "valid" or self.task == "test"), \
@@ -157,10 +157,13 @@ class LIDModel(BaseModelArchitecture):
         run_id = None
         if self.config["restore_training"]:
             state, run_id = self.restore_model_training()
-            self.model.load_state_dict(state['state_dict'])
-            self.optimizer.load_state_dict(state['optimizer'])
-            start_epochs = state['epoch']
-            self.valid_loss_min = state['valid_loss_min']
+            if state and run_id:
+                self.model.load_state_dict(state['state_dict'])
+                self.optimizer.load_state_dict(state['optimizer'])
+                start_epochs = state['epoch']
+                self.valid_loss_min = state['valid_loss_min']
+            else:
+                pass
         with mlflow.start_run(run_id=run_id, run_name=self.config["run_name"]):
             self.logger_client.log_param(self.config)
             for epoch in range(start_epochs, self.config["num_epochs"] + 1):
