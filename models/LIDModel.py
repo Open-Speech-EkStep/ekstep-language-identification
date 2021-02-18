@@ -24,8 +24,7 @@ class LIDModel(BaseModelArchitecture):
         self.loader = None
         self.optimizer = None
         self.criterion = None
-        self.valid_loss_min = 0.0
-
+        self.valid_loss_min = np.inf
         self.config = self.load_config()["train_parameters"]
         self.config["batch_size"] = int(self.config["batch_size"])
         self.config["learning_rate"] = float(self.config["learning_rate"])
@@ -121,13 +120,17 @@ class LIDModel(BaseModelArchitecture):
         return loaders
 
     def get_state(self, epoch):
+        class State(torch.nn.Module):
+            def __init__(self, state):
+                self.state = state
+
         state = {
             'epoch': epoch + 1,
             'valid_loss_min': self.valid_loss_min,
             'state_dict': self.model.state_dict(),
             'optimizer': self.optimizer.state_dict(),
         }
-        return state
+        return State(state)
 
     def build_model(self):
         assert (self.config and self.device), "device set to None,Set pytorch device in set_train_parameters"
@@ -158,6 +161,7 @@ class LIDModel(BaseModelArchitecture):
         if self.config["restore_training"]:
             state, run_id = self.restore_model_training()
             if state and run_id:
+                state = state.state
                 self.model.load_state_dict(state['state_dict'])
                 self.optimizer.load_state_dict(state['optimizer'])
                 start_epochs = state['epoch']
