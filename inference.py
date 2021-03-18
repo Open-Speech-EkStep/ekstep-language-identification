@@ -66,8 +66,8 @@ def evaluation(audio_path, model_path):
 
 if __name__ == "__main__":
     # Just edit model_path and audio_path
-    model_path = 'final_model_tamil_vs_other.pt'
-    audio_path = '../../Resampled_audios/Tamil_resampled/Tamil_1.wav'
+    model_path = 'path_to_best_model'
+    audio_path = 'path_to_audio.wav'
     audio_ext = audio_path.split('.')[-1]
 
     if not os.path.isfile(model_path):

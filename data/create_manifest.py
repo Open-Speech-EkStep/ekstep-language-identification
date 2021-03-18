@@ -27,9 +27,11 @@ def create_manifest(path, label, ext, mode):
 
 
 if __name__ == "__main__":
-    create_manifest(path="/home/jupyter/language_identification_data/train_hindi", label=0, ext="wav", mode="Train")
-    create_manifest(path="/home/jupyter/language_identification_data/train_english", label=1, ext="wav", mode="Train")
-    create_manifest(path="/home/jupyter/language_identification_data/train_tamil", label=2, ext="wav", mode="Train")
-    create_manifest(path="/home/jupyter/language_identification_data/valid_hindi", label=0, ext="wav", mode="valid")
-    create_manifest(path="/home/jupyter/language_identification_data/valid_english", label=1, ext="wav", mode="valid")
-    create_manifest(path="/home/jupyter/language_identification_data/valid_tamil", label=2, ext="wav", mode="valid")
+    #For train
+    create_manifest(path="path_to_train_data_class_0", label=0, ext="wav", mode="train")
+    create_manifest(path="path_to_train_data_class_1", label=1, ext="wav", mode="train")
+
+    #For Valid
+    create_manifest(path="path_to_valid_data_class_0", label=0, ext="wav", mode="valid")
+    create_manifest(path="path_to_valid_data_class_1", label=1, ext="wav", mode="valid")
+
