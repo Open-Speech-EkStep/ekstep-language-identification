@@ -26,4 +26,4 @@ RUN ls -la /opt/ekstep-language-identification/*
 ## Running Python Application
 #CMD ["python3", "/src/main.py"]
 ENTRYPOINT ["/bin/bash", "invocation_script.sh"]
-CMD ["hindi_path","english_path"]
+CMD ["hindi_path","english_path","config_path"]

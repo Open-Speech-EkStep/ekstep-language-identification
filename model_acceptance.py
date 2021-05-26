@@ -1,6 +1,9 @@
+import sys
+
 from models.LIDModel import LIDModel
 
-lid_model = LIDModel(config_path="train_config.yml")
+config_path = sys.argv[0]
+lid_model = LIDModel(config_path=config_path + "/train_config.yml")
 
 score_threshold = lid_model.config["score_threshold"]
 model_name = lid_model.config["model_name"] + "_best"
