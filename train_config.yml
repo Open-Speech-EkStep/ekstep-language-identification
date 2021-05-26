@@ -9,10 +9,10 @@ train_parameters:
   num_classes: 3
   checkpoint_path: "/training_data/checkpoints"
   model_name: "LID_MODEL"
-  device: "GPU"
+  device: "CPU"
   pretrained: False
   restore_training: True
-  tracking_uri: "http://0.0.0.0:9000"
+  tracking_uri: "http://34.73.57.176:9000/"
   experiment_name: "Language identification"
   run_name: "mlops experiments"
   score_threshold: .50
