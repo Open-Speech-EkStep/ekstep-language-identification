@@ -15,6 +15,9 @@ class MlLifeCycle(MlflowLifeCycle):
         """Placeholder for model loading as that depends on framework used"""
         return mlflow.pytorch.load_model(model_uri)
 
+    def log_artifact(self, file_name):
+        mlflow.log_artifact(file_name)
+
 
 class BaseModelArchitecture:
     def __init__(self, config_path=None):

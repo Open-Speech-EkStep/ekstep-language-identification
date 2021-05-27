@@ -170,6 +170,8 @@ class LIDModel(BaseModelArchitecture):
                 pass
         with mlflow.start_run(run_id=run_id, run_name=self.config["run_name"]):
             self.logger_client.log_param(self.config)
+            self.logger_client.log_artifact(self.config["train_manifest"])
+            self.logger_client.log_artifact(self.config["valid_manifest"])
             for epoch in range(start_epochs, self.config["num_epochs"] + 1):
                 self.task = "train"
                 train_result = self.iterator()
@@ -188,7 +190,7 @@ class LIDModel(BaseModelArchitecture):
                     self.logger_client.log_model(model=self.model, model_name=self.config["model_name"] + "_best")
 
                 state = self.get_state(epoch)
-                self.logger_client.log_model(model=state, model_name=self.config["model_name"] + "_last")
+            self.logger_client.log_model(model=state, model_name=self.config["model_name"] + "_last")
 
     def test(self):
         self.set_train_parameters()
@@ -200,6 +202,7 @@ class LIDModel(BaseModelArchitecture):
             self.task = "test"
             with mlflow.start_run(run_id=run_id, run_name=self.config["run_name"]):
                 self.logger_client.log_param(self.config)
+                self.logger_client.log_artifact(self.config["test_manifest"])
                 results = self.iterator()
                 final_results["test_loss"] = results["Loss"]
                 final_results["test_accuracy"] = self.cal_accuracy(results["Predictions"], results["Targets"])

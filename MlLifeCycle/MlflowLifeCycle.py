@@ -15,8 +15,8 @@ class MlflowLifeCycle:
 
     @staticmethod
     def log_metric(metrics: dict):
-        for metric in metrics:
-            assert float(metrics[metric]), "Metric value value can only be int or float."
+        # for metric in metrics:
+        #     assert float(metrics[metric]), "Metric value value can only be int or float."
 
         for metric in metrics:
             mlflow.log_metric(metric, float(metrics[metric]))
